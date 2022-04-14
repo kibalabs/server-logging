@@ -42,6 +42,7 @@ jobs:
                 --name ${NAME} \
                 --detach \
                 --restart on-failure \
+                --mount source=/var/log/containers/,target=/var/log/containers/
                 ${DOCKER_IMAGE}
   # run-certbox:
   #   needs: deploy
