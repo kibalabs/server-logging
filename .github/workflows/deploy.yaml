@@ -42,7 +42,7 @@ jobs:
                 --name ${NAME} \
                 --detach \
                 --restart on-failure \
-                --mount source=/var/lib/docker/containers,target=/var/lib/docker/containers \
+                --volume /var/lib/docker/containers:/var/lib/docker/containers \
                 ${DOCKER_IMAGE}
   # run-certbox:
   #   needs: deploy
