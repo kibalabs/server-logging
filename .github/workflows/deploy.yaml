@@ -3,7 +3,7 @@ on:
   pull_request:
     branches: [ main ]
 jobs:
-  deploy-logging:
+  deploy:
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -20,7 +20,7 @@ jobs:
       - name: Push to container registry
         run: docker push $DOCKER_IMAGE
   run-apibox:
-    needs: deploy-logging
+    needs: deploy
     runs-on: ubuntu-latest
     env:
       NAME: server-logging
@@ -44,7 +44,7 @@ jobs:
                 --restart on-failure \
                 ${DOCKER_IMAGE}
   # run-certbox:
-  #   needs: deploy-logging
+  #   needs: deploy
   #   runs-on: ubuntu-latest
   #   env:
   #     NAME: server-logging
@@ -68,7 +68,7 @@ jobs:
   #               --restart on-failure \
   #               ${DOCKER_IMAGE}
   # run-workerbox:
-  #   needs: deploy-logging
+  #   needs: deploy
   #   runs-on: ubuntu-latest
   #   env:
   #     NAME: server-logging
@@ -92,7 +92,7 @@ jobs:
   #               --restart on-failure \
   #               ${DOCKER_IMAGE}
   # run-mdtpbox:
-  #   needs: deploy-logging
+  #   needs: deploy
   #   runs-on: ubuntu-latest
   #   env:
   #     NAME: server-logging
