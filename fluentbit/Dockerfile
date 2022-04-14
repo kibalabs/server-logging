@@ -1,3 +1,3 @@
 FROM fluent/fluent-bit:1.8.0
 
-COPY fluentbit.conf /fluent-bit/etc/
+COPY fluent-bit.conf /fluent-bit/etc/
