@@ -94,28 +94,28 @@ jobs:
   #               --restart on-failure \
   #               --volume /var/lib/docker/containers:/var/lib/docker/containers:ro \
   #               ${DOCKER_IMAGE}
-  # run-mdtpbox:
-  #   needs: deploy
-  #   runs-on: ubuntu-latest
-  #   env:
-  #     NAME: server-logging
-  #     DOCKER_IMAGE: ghcr.io/${{ github.repository }}:latest
-  #   steps:
-  #     - name: executing remote ssh commands
-  #       uses: appleboy/ssh-action@master
-  #       with:
-  #         host: ${{ secrets.MDTPBOX_URL }}
-  #         username: ${{ secrets.MDTPBOX_USER }}
-  #         key: ${{ secrets.MDTPBOX_SSH_KEY }}
-  #         port: ${{ secrets.MDTPBOX_PORT }}
-  #         envs: NAME,DOCKER_IMAGE
-  #         script_stop: true
-  #         script: |
-  #           docker pull ${DOCKER_IMAGE}
-  #           docker stop ${NAME} && docker rm ${NAME} || true
-  #           docker run \
-  #               --name ${NAME} \
-  #               --detach \
-  #               --restart on-failure \
-  #               --volume /var/lib/docker/containers:/var/lib/docker/containers:ro \
-  #               ${DOCKER_IMAGE}
+  run-mdtpbox:
+    needs: deploy
+    runs-on: ubuntu-latest
+    env:
+      NAME: server-logging
+      DOCKER_IMAGE: ghcr.io/${{ github.repository }}:latest
+    steps:
+      - name: executing remote ssh commands
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.MDTPBOX_URL }}
+          username: ${{ secrets.MDTPBOX_USER }}
+          key: ${{ secrets.MDTPBOX_SSH_KEY }}
+          port: ${{ secrets.MDTPBOX_PORT }}
+          envs: NAME,DOCKER_IMAGE
+          script_stop: true
+          script: |
+            docker pull ${DOCKER_IMAGE}
+            docker stop ${NAME} && docker rm ${NAME} || true
+            docker run \
+                --name ${NAME} \
+                --detach \
+                --restart on-failure \
+                --volume /var/lib/docker/containers:/var/lib/docker/containers:ro \
+                ${DOCKER_IMAGE}
