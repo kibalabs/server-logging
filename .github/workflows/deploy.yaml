@@ -44,56 +44,56 @@ jobs:
                 --restart on-failure \
                 --volume /var/lib/docker/containers:/var/lib/docker/containers:ro \
                 ${DOCKER_IMAGE}
-  # run-certbox:
-  #   needs: deploy
-  #   runs-on: ubuntu-latest
-  #   env:
-  #     NAME: server-logging
-  #     DOCKER_IMAGE: ghcr.io/${{ github.repository }}:latest
-  #   steps:
-  #     - name: executing remote ssh commands
-  #       uses: appleboy/ssh-action@master
-  #       with:
-  #         host: ${{ secrets.CERTBOX_URL }}
-  #         username: ${{ secrets.CERTBOX_USER }}
-  #         key: ${{ secrets.CERTBOX_SSH_KEY }}
-  #         port: ${{ secrets.CERTBOX_PORT }}
-  #         envs: NAME,DOCKER_IMAGE
-  #         script_stop: true
-  #         script: |
-  #           docker pull ${DOCKER_IMAGE}
-  #           docker stop ${NAME} && docker rm ${NAME} || true
-  #           docker run \
-  #               --name ${NAME} \
-  #               --detach \
-  #               --restart on-failure \
-  #               --volume /var/lib/docker/containers:/var/lib/docker/containers:ro \
-  #               ${DOCKER_IMAGE}
-  # run-workerbox:
-  #   needs: deploy
-  #   runs-on: ubuntu-latest
-  #   env:
-  #     NAME: server-logging
-  #     DOCKER_IMAGE: ghcr.io/${{ github.repository }}:latest
-  #   steps:
-  #     - name: executing remote ssh commands
-  #       uses: appleboy/ssh-action@master
-  #       with:
-  #         host: ${{ secrets.WORKERBOX_URL }}
-  #         username: ${{ secrets.WORKERBOX_USER }}
-  #         key: ${{ secrets.WORKERBOX_SSH_KEY }}
-  #         port: ${{ secrets.WORKERBOX_PORT }}
-  #         envs: NAME,DOCKER_IMAGE
-  #         script_stop: true
-  #         script: |
-  #           docker pull ${DOCKER_IMAGE}
-  #           docker stop ${NAME} && docker rm ${NAME} || true
-  #           docker run \
-  #               --name ${NAME} \
-  #               --detach \
-  #               --restart on-failure \
-  #               --volume /var/lib/docker/containers:/var/lib/docker/containers:ro \
-  #               ${DOCKER_IMAGE}
+  run-certbox:
+    needs: deploy
+    runs-on: ubuntu-latest
+    env:
+      NAME: server-logging
+      DOCKER_IMAGE: ghcr.io/${{ github.repository }}:latest
+    steps:
+      - name: executing remote ssh commands
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.CERTBOX_URL }}
+          username: ${{ secrets.CERTBOX_USER }}
+          key: ${{ secrets.CERTBOX_SSH_KEY }}
+          port: ${{ secrets.CERTBOX_PORT }}
+          envs: NAME,DOCKER_IMAGE
+          script_stop: true
+          script: |
+            docker pull ${DOCKER_IMAGE}
+            docker stop ${NAME} && docker rm ${NAME} || true
+            docker run \
+                --name ${NAME} \
+                --detach \
+                --restart on-failure \
+                --volume /var/lib/docker/containers:/var/lib/docker/containers:ro \
+                ${DOCKER_IMAGE}
+  run-workerbox:
+    needs: deploy
+    runs-on: ubuntu-latest
+    env:
+      NAME: server-logging
+      DOCKER_IMAGE: ghcr.io/${{ github.repository }}:latest
+    steps:
+      - name: executing remote ssh commands
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.WORKERBOX_URL }}
+          username: ${{ secrets.WORKERBOX_USER }}
+          key: ${{ secrets.WORKERBOX_SSH_KEY }}
+          port: ${{ secrets.WORKERBOX_PORT }}
+          envs: NAME,DOCKER_IMAGE
+          script_stop: true
+          script: |
+            docker pull ${DOCKER_IMAGE}
+            docker stop ${NAME} && docker rm ${NAME} || true
+            docker run \
+                --name ${NAME} \
+                --detach \
+                --restart on-failure \
+                --volume /var/lib/docker/containers:/var/lib/docker/containers:ro \
+                ${DOCKER_IMAGE}
   run-mdtpbox:
     needs: deploy
     runs-on: ubuntu-latest
