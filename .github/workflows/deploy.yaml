@@ -67,6 +67,7 @@ jobs:
   #               --name ${NAME} \
   #               --detach \
   #               --restart on-failure \
+  #               --volume /var/lib/docker/containers:/var/lib/docker/containers:ro \
   #               ${DOCKER_IMAGE}
   # run-workerbox:
   #   needs: deploy
@@ -91,6 +92,7 @@ jobs:
   #               --name ${NAME} \
   #               --detach \
   #               --restart on-failure \
+  #               --volume /var/lib/docker/containers:/var/lib/docker/containers:ro \
   #               ${DOCKER_IMAGE}
   # run-mdtpbox:
   #   needs: deploy
@@ -115,4 +117,5 @@ jobs:
   #               --name ${NAME} \
   #               --detach \
   #               --restart on-failure \
+  #               --volume /var/lib/docker/containers:/var/lib/docker/containers:ro \
   #               ${DOCKER_IMAGE}
