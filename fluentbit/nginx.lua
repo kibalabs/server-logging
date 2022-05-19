@@ -9,7 +9,6 @@ function parse_json_date(json_date)
       offset = tonumber(offsethour) * 60 + tonumber(offsetmin)
       if xoffset == "-" then offset = offset * -1 end
     end
-
     return timestamp + offset
 end
 
