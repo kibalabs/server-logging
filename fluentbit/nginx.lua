@@ -15,11 +15,6 @@ end
 
 function parse(tag, timestamp, record)
     newRecord = record
-    -- if record["x"] ~= nil then
-        -- return 2, timestamp, record["x"]
-    -- else
-        -- return 2, timestamp, record
-    -- end
     newRecord["apiAction"] = record["request_method"]
     record["request_method"] = nil
     newRecord["apiPath"] = record["uri"]
