@@ -1,4 +1,4 @@
-FROM fluent/fluent-bit:1.9.1
+FROM fluent/fluent-bit:2.0.9
 
 COPY *.conf /fluent-bit/etc/
 COPY *.lua /fluent-bit/etc/
