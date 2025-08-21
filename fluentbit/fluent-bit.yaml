@@ -46,32 +46,21 @@ pipeline:
     # Extract container ID from file path
     - name: modify
       match: docker_logs
-      add: container_id_full ${container_log_path}
+      condition: key_exists container_log_path
+      replace: container_log_path "/var/lib/docker/containers/" ""
     - name: modify
       match: docker_logs
       condition: key_exists container_log_path
-      copy: container_log_path container_id_full
+      replace: container_log_path "/.+" ""
+    # Rename to container_id (short version - first 12 chars)
     - name: modify
       match: docker_logs
-      condition: key_exists container_id_full
-      replace: container_id_full "/var/lib/docker/containers/" ""
+      condition: key_exists container_log_path
+      replace: container_log_path "^(.{12}).*" "$1"
     - name: modify
       match: docker_logs
-      condition: key_exists container_id_full
-      replace: container_id_full "/.+" ""
-    # Extract short container ID (first 12 chars)
-    - name: modify
-      match: docker_logs
-      condition: key_exists container_id_full
-      copy: container_id_full container_id
-    - name: modify
-      match: docker_logs
-      condition: key_exists container_id
-      replace: container_id "^(.{12}).*" "$1"
-    # Remove the raw path key as we don't need it anymore
-    - name: modify
-      match: docker_logs
-      remove: container_log_path
+      condition: key_exists container_log_path
+      rename: container_log_path container_id
     # Extract log fields (docker wraps logs in {"log": "<msg>", ...})
     - name: parser
       match: docker_logs
