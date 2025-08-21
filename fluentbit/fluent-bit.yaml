@@ -43,24 +43,11 @@ pipeline:
   #     host: elasticsearch
   #     suppress_type_name: "On"
   filters:
-    # Extract container ID from file path
-    - name: modify
+    # Extract container ID from file path using Lua
+    - name: lua
       match: docker_logs
-      condition: key_exists container_log_path
-      replace: container_log_path "/var/lib/docker/containers/" ""
-    - name: modify
-      match: docker_logs
-      condition: key_exists container_log_path
-      replace: container_log_path "/.+" ""
-    # Rename to container_id (short version - first 12 chars)
-    - name: modify
-      match: docker_logs
-      condition: key_exists container_log_path
-      replace: container_log_path "^(.{12}).*" "$1"
-    - name: modify
-      match: docker_logs
-      condition: key_exists container_log_path
-      rename: container_log_path container_id
+      script: util.lua
+      call: extract_container_id
     # Extract log fields (docker wraps logs in {"log": "<msg>", ...})
     - name: parser
       match: docker_logs
