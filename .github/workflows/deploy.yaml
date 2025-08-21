@@ -35,8 +35,8 @@ jobs:
   #         key: ${{ secrets.APIBOX_SSH_KEY }}
   #         port: ${{ secrets.APIBOX_PORT }}
   #         envs: NAME,DOCKER_IMAGE
-  #         script_stop: true
   #         script: |
+  #           set -e
   #           docker pull ${DOCKER_IMAGE}
   #           docker stop ${NAME} && docker rm ${NAME} || true
   #           docker run \
@@ -61,8 +61,8 @@ jobs:
   #         key: ${{ secrets.CERTBOX_SSH_KEY }}
   #         port: ${{ secrets.CERTBOX_PORT }}
   #         envs: NAME,DOCKER_IMAGE
-  #         script_stop: true
   #         script: |
+  #           set -e
   #           docker pull ${DOCKER_IMAGE}
   #           docker stop ${NAME} && docker rm ${NAME} || true
   #           docker run \
@@ -87,8 +87,8 @@ jobs:
   #         key: ${{ secrets.WORKERBOX_SSH_KEY }}
   #         port: ${{ secrets.WORKERBOX_PORT }}
   #         envs: NAME,DOCKER_IMAGE
-  #         script_stop: true
   #         script: |
+  #           set -e
   #           docker pull ${DOCKER_IMAGE}
   #           docker stop ${NAME} && docker rm ${NAME} || true
   #           docker run \
@@ -113,8 +113,8 @@ jobs:
   #         key: ${{ secrets.MDTPBOX_SSH_KEY }}
   #         port: ${{ secrets.MDTPBOX_PORT }}
   #         envs: NAME,DOCKER_IMAGE
-  #         script_stop: true
   #         script: |
+  #           set -e
   #           docker pull ${DOCKER_IMAGE}
   #           docker stop ${NAME} && docker rm ${NAME} || true
   #           docker run \
@@ -139,8 +139,8 @@ jobs:
           key: ${{ secrets.YS_APPBOX_SSH_KEY }}
           port: ${{ secrets.YS_APPBOX_PORT }}
           envs: NAME,DOCKER_IMAGE
-          script_stop: true
           script: |
+            set -e
             docker pull ${DOCKER_IMAGE}
             docker stop ${NAME} && docker rm ${NAME} || true
             docker run \
