@@ -18,6 +18,7 @@ pipeline:
       parser: docker_log_parser
       tag: docker_logs
       multiline.parser: docker
+      path_key: container_log_path
   outputs:
     - name: opensearch
       match: "*"
@@ -42,6 +43,35 @@ pipeline:
   #     host: elasticsearch
   #     suppress_type_name: "On"
   filters:
+    # Extract container ID from file path
+    - name: modify
+      match: docker_logs
+      add: container_id_full ${container_log_path}
+    - name: modify
+      match: docker_logs
+      condition: key_exists container_log_path
+      copy: container_log_path container_id_full
+    - name: modify
+      match: docker_logs
+      condition: key_exists container_id_full
+      replace: container_id_full "/var/lib/docker/containers/" ""
+    - name: modify
+      match: docker_logs
+      condition: key_exists container_id_full
+      replace: container_id_full "/.+" ""
+    # Extract short container ID (first 12 chars)
+    - name: modify
+      match: docker_logs
+      condition: key_exists container_id_full
+      copy: container_id_full container_id
+    - name: modify
+      match: docker_logs
+      condition: key_exists container_id
+      replace: container_id "^(.{12}).*" "$1"
+    # Remove the raw path key as we don't need it anymore
+    - name: modify
+      match: docker_logs
+      remove: container_log_path
     # Extract log fields (docker wraps logs in {"log": "<msg>", ...})
     - name: parser
       match: docker_logs
