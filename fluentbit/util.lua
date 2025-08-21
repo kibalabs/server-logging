@@ -12,7 +12,7 @@ function extract_container_id(tag, timestamp, record)
         if container_id then
             newRecord["containerId"] = container_id
         end
-        newRecord["container_log_path"] = nil
+        newRecord["containerLogPath"] = nil
     end
     return 2, timestamp, newRecord
 end
