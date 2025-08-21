@@ -1,6 +1,6 @@
 name: Deploy
 on:
-  push:
+  pull_request:
     branches: [ main ]
   workflow_dispatch:
 jobs:
@@ -20,7 +20,111 @@ jobs:
         run: docker build --tag $DOCKER_IMAGE .
       - name: Push to container registry
         run: docker push $DOCKER_IMAGE
-  run-apibox:
+  # run-apibox:
+  #   needs: deploy
+  #   runs-on: ubuntu-latest
+  #   env:
+  #     NAME: server-logging
+  #     DOCKER_IMAGE: ghcr.io/${{ github.repository }}:latest
+  #   steps:
+  #     - name: executing remote ssh commands
+  #       uses: appleboy/ssh-action@master
+  #       with:
+  #         host: ${{ secrets.APIBOX_URL }}
+  #         username: ${{ secrets.APIBOX_USER }}
+  #         key: ${{ secrets.APIBOX_SSH_KEY }}
+  #         port: ${{ secrets.APIBOX_PORT }}
+  #         envs: NAME,DOCKER_IMAGE
+  #         script_stop: true
+  #         script: |
+  #           docker pull ${DOCKER_IMAGE}
+  #           docker stop ${NAME} && docker rm ${NAME} || true
+  #           docker run \
+  #               --name ${NAME} \
+  #               --detach \
+  #               --restart on-failure \
+  #               --env OPENSEARCH_URL=vpc-kiba-logs-iz46qlwv7gq2xvvtrtlduv4lbq.eu-west-1.es.amazonaws.com \
+  #               --volume /var/lib/docker/containers:/var/lib/docker/containers:ro \
+  #               ${DOCKER_IMAGE}
+  # run-certbox:
+  #   needs: deploy
+  #   runs-on: ubuntu-latest
+  #   env:
+  #     NAME: server-logging
+  #     DOCKER_IMAGE: ghcr.io/${{ github.repository }}:latest
+  #   steps:
+  #     - name: executing remote ssh commands
+  #       uses: appleboy/ssh-action@master
+  #       with:
+  #         host: ${{ secrets.CERTBOX_URL }}
+  #         username: ${{ secrets.CERTBOX_USER }}
+  #         key: ${{ secrets.CERTBOX_SSH_KEY }}
+  #         port: ${{ secrets.CERTBOX_PORT }}
+  #         envs: NAME,DOCKER_IMAGE
+  #         script_stop: true
+  #         script: |
+  #           docker pull ${DOCKER_IMAGE}
+  #           docker stop ${NAME} && docker rm ${NAME} || true
+  #           docker run \
+  #               --name ${NAME} \
+  #               --detach \
+  #               --restart on-failure \
+  #               --env OPENSEARCH_URL=vpc-kiba-logs-iz46qlwv7gq2xvvtrtlduv4lbq.eu-west-1.es.amazonaws.com \
+  #               --volume /var/lib/docker/containers:/var/lib/docker/containers:ro \
+  #               ${DOCKER_IMAGE}
+  # run-workerbox:
+  #   needs: deploy
+  #   runs-on: ubuntu-latest
+  #   env:
+  #     NAME: server-logging
+  #     DOCKER_IMAGE: ghcr.io/${{ github.repository }}:latest
+  #   steps:
+  #     - name: executing remote ssh commands
+  #       uses: appleboy/ssh-action@master
+  #       with:
+  #         host: ${{ secrets.WORKERBOX_URL }}
+  #         username: ${{ secrets.WORKERBOX_USER }}
+  #         key: ${{ secrets.WORKERBOX_SSH_KEY }}
+  #         port: ${{ secrets.WORKERBOX_PORT }}
+  #         envs: NAME,DOCKER_IMAGE
+  #         script_stop: true
+  #         script: |
+  #           docker pull ${DOCKER_IMAGE}
+  #           docker stop ${NAME} && docker rm ${NAME} || true
+  #           docker run \
+  #               --name ${NAME} \
+  #               --detach \
+  #               --restart on-failure \
+  #               --env OPENSEARCH_URL=vpc-kiba-logs-iz46qlwv7gq2xvvtrtlduv4lbq.eu-west-1.es.amazonaws.com \
+  #               --volume /var/lib/docker/containers:/var/lib/docker/containers:ro \
+  #               ${DOCKER_IMAGE}
+  # run-mdtpbox:
+  #   needs: deploy
+  #   runs-on: ubuntu-latest
+  #   env:
+  #     NAME: server-logging
+  #     DOCKER_IMAGE: ghcr.io/${{ github.repository }}:latest
+  #   steps:
+  #     - name: executing remote ssh commands
+  #       uses: appleboy/ssh-action@master
+  #       with:
+  #         host: ${{ secrets.MDTPBOX_URL }}
+  #         username: ${{ secrets.MDTPBOX_USER }}
+  #         key: ${{ secrets.MDTPBOX_SSH_KEY }}
+  #         port: ${{ secrets.MDTPBOX_PORT }}
+  #         envs: NAME,DOCKER_IMAGE
+  #         script_stop: true
+  #         script: |
+  #           docker pull ${DOCKER_IMAGE}
+  #           docker stop ${NAME} && docker rm ${NAME} || true
+  #           docker run \
+  #               --name ${NAME} \
+  #               --detach \
+  #               --restart on-failure \
+  #               --env OPENSEARCH_URL=vpc-kiba-logs-iz46qlwv7gq2xvvtrtlduv4lbq.eu-west-1.es.amazonaws.com \
+  #               --volume /var/lib/docker/containers:/var/lib/docker/containers:ro \
+  #               ${DOCKER_IMAGE}
+  run-ys-appbox:
     needs: deploy
     runs-on: ubuntu-latest
     env:
@@ -30,10 +134,10 @@ jobs:
       - name: executing remote ssh commands
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ secrets.APIBOX_URL }}
-          username: ${{ secrets.APIBOX_USER }}
-          key: ${{ secrets.APIBOX_SSH_KEY }}
-          port: ${{ secrets.APIBOX_PORT }}
+          host: ${{ secrets.YS_APPBOX_URL }}
+          username: ${{ secrets.YS_APPBOX_USER }}
+          key: ${{ secrets.YS_APPBOX_SSH_KEY }}
+          port: ${{ secrets.YS_APPBOX_PORT }}
           envs: NAME,DOCKER_IMAGE
           script_stop: true
           script: |
@@ -43,80 +147,6 @@ jobs:
                 --name ${NAME} \
                 --detach \
                 --restart on-failure \
-                --volume /var/lib/docker/containers:/var/lib/docker/containers:ro \
-                ${DOCKER_IMAGE}
-  run-certbox:
-    needs: deploy
-    runs-on: ubuntu-latest
-    env:
-      NAME: server-logging
-      DOCKER_IMAGE: ghcr.io/${{ github.repository }}:latest
-    steps:
-      - name: executing remote ssh commands
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.CERTBOX_URL }}
-          username: ${{ secrets.CERTBOX_USER }}
-          key: ${{ secrets.CERTBOX_SSH_KEY }}
-          port: ${{ secrets.CERTBOX_PORT }}
-          envs: NAME,DOCKER_IMAGE
-          script_stop: true
-          script: |
-            docker pull ${DOCKER_IMAGE}
-            docker stop ${NAME} && docker rm ${NAME} || true
-            docker run \
-                --name ${NAME} \
-                --detach \
-                --restart on-failure \
-                --volume /var/lib/docker/containers:/var/lib/docker/containers:ro \
-                ${DOCKER_IMAGE}
-  run-workerbox:
-    needs: deploy
-    runs-on: ubuntu-latest
-    env:
-      NAME: server-logging
-      DOCKER_IMAGE: ghcr.io/${{ github.repository }}:latest
-    steps:
-      - name: executing remote ssh commands
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.WORKERBOX_URL }}
-          username: ${{ secrets.WORKERBOX_USER }}
-          key: ${{ secrets.WORKERBOX_SSH_KEY }}
-          port: ${{ secrets.WORKERBOX_PORT }}
-          envs: NAME,DOCKER_IMAGE
-          script_stop: true
-          script: |
-            docker pull ${DOCKER_IMAGE}
-            docker stop ${NAME} && docker rm ${NAME} || true
-            docker run \
-                --name ${NAME} \
-                --detach \
-                --restart on-failure \
-                --volume /var/lib/docker/containers:/var/lib/docker/containers:ro \
-                ${DOCKER_IMAGE}
-  run-mdtpbox:
-    needs: deploy
-    runs-on: ubuntu-latest
-    env:
-      NAME: server-logging
-      DOCKER_IMAGE: ghcr.io/${{ github.repository }}:latest
-    steps:
-      - name: executing remote ssh commands
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.MDTPBOX_URL }}
-          username: ${{ secrets.MDTPBOX_USER }}
-          key: ${{ secrets.MDTPBOX_SSH_KEY }}
-          port: ${{ secrets.MDTPBOX_PORT }}
-          envs: NAME,DOCKER_IMAGE
-          script_stop: true
-          script: |
-            docker pull ${DOCKER_IMAGE}
-            docker stop ${NAME} && docker rm ${NAME} || true
-            docker run \
-                --name ${NAME} \
-                --detach \
-                --restart on-failure \
+                --env OPENSEARCH_URL=vpc-yieldseeker-logs-vzis2bk6an4gq654xu6fynrnby.eu-west-1.es.amazonaws.com \
                 --volume /var/lib/docker/containers:/var/lib/docker/containers:ro \
                 ${DOCKER_IMAGE}
