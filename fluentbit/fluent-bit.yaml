@@ -1,5 +1,6 @@
 service:
   log_level: info
+  flush: 15
 parsers:
   - name: docker_log_parser
     format: json
