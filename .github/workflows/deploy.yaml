@@ -147,7 +147,6 @@ jobs:
                 --name ${NAME} \
                 --detach \
                 --restart on-failure \
-                --env OPENSEARCH_URL=vpc-yieldseeker-logs-vzis2bk6an4gq654xu6fynrnby.eu-west-1.es.amazonaws.com \
                 --env VICTORIALOGS_HOST=10.18.1.50 \
                 --volume /var/lib/docker/containers:/var/lib/docker/containers:ro \
                 ${DOCKER_IMAGE}
