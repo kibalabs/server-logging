@@ -1,0 +1,7 @@
+    - name: opensearch
+      match: "*"
+      host: ${OPENSEARCH_URL}
+      port: 443
+      tls: "On"
+      logstash_format: "On"
+      suppress_type_name: "On"

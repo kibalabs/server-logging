@@ -20,14 +20,6 @@ pipeline:
       tag: docker_logs
       multiline.parser: docker
       path_key: containerLogPath
-  outputs:
-    - name: opensearch
-      match: "*"
-      host: ${OPENSEARCH_URL}
-      port: 443
-      tls: "On"
-      logstash_format: "On"
-      suppress_type_name: "On"
   # # Testing only
   # inputs:
   #   - name: dummy
