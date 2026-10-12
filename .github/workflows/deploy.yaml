@@ -13,7 +13,7 @@ jobs:
       DOCKER_IMAGE: ghcr.io/${{ github.repository }}:latest
     steps:
       - name: Check out the repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v7
       - name: Login to GitHub container registry
         run: echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u ${{ github.repository_owner }} --password-stdin
       - name: Build docker image
