@@ -1,4 +1,4 @@
-FROM fluent/fluent-bit:5.1.3
+FROM fluent/fluent-bit:5.1.5
 
 # NOTE(krishan711): the fluent-bit image has no shell, so add a static busybox for entrypoint.sh to pick the outputs
 COPY --from=busybox:1.38.0-musl /bin/busybox /bin/busybox
