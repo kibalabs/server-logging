@@ -154,6 +154,6 @@ jobs:
                 --name ${NAME} \
                 --detach \
                 --restart unless-stopped \
-                --env VICTORIALOGS_HOST=10.18.1.50 \
+                --env VICTORIALOGS_HOST=10.18.1.140 \
                 --volume /var/lib/docker/containers:/var/lib/docker/containers:ro \
                 ${DOCKER_IMAGE}
